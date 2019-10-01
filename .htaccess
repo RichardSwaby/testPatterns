@@ -1,0 +1,31 @@
+#options +FollowSymlinks
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)$ index.php?wordClass=$2&language=$1 [L,QSA]
+RewriteRule . index.php [L,QSA]
+RewriteRule ^(.*)\.(gif|jpg|png|jpeg|css|js|swf)$ $1.$2 [L,NC]
+
+
+#
+# {REQUEST_URI} is that part of the URI which follows the domain up to but not including the
+# ? character of a query string, and is the only Apache variable that a rewrite rule attempts to match
+# In this case REQUEST_URI seems to contain "french/noun"
+#
+# Explanation of the reg-ex expression
+# (.*) combines two metacharacters: the dot character which means any character and the asterisk
+#      character which specifies zero or more of the preceding character.
+#      Thus (.*) matches everything in the {REQUEST_URI} string
+#	   Wrapping the expression in brackets stores it in an @atom", which is a variable that allows
+#      the matched characters to be reused within the rule.
+#
+# Assuming that the atoms represent names with just upper and lower case and blanks we can use
+# [a-zA-Z_] and to avoid matching blank names we add the + metacharacter, which specifies a match only
+# on one or more of the preceding character.
+#
+# The URI string used to start with a / character on Apache version 1 but Apache 2 forbids it
+# ? is the metacharacter for zero or one of the preceding character
+#
+# The ? in the request_URI is what splits the atoms and the slashes in the new thing are literals
+# that we put in there
+#
