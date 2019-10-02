@@ -1,4 +1,6 @@
 <?php
+namespace Controller;
+
 class  CommandFactory {
 
   static function getCommand ( $action='Default') {
@@ -11,15 +13,15 @@ class  CommandFactory {
     }
 
     while ($folder = array_shift($folders)) {
-        $file = dirname(__DIR__) . DIRECTORY_SEPARATOR. "Model" . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . "{$action}.php";
+        $file = dirname(__DIR__) . DIRECTORY_SEPARATOR. "Commands" . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . "{$action}.php";
         print_r ($file . "\n");
         if ( file_exists( $file ) ) {
           require_once( $file );
-          $classname = 'Model' . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $action;
+          $classname = 'Commands' . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR . $action;
           if (class_exists( $classname) ) {
-             $cmd_class = new ReflectionClass($classname);
+             $cmd_class = new \ReflectionClass($classname);
              print_r($cmd_class);
-             // if ($cmd_class->isSubClassOf( Command ) ) {
+             // if ($cmd_class->isSubClassOf( \Controller\ICommand ) )  {
                return $cmd_class->newinstance();
                break;
              // }

@@ -1,4 +1,6 @@
 <?php
+namespace Controller;
+
 class CommandContext {
   private $params = array();
   private $URI = array();
@@ -12,6 +14,7 @@ class CommandContext {
 
       $this->URI = preg_split ("~[/?]~", $_SERVER['REQUEST_URI'], -1, PREG_SPLIT_NO_EMPTY);
       $this->params['action']=$this->URI[1];
+      $this->params['parameter'] = $this->URI[2];
 
 //      preg_match_all("~([\.a-zA-Z]*)(?=[\/\?])+~", $_SERVER['REQUEST_URI'], $matches, PREG_UNMATCHED_AS_NULL, 0);
 //      print_r($matches[1]);
